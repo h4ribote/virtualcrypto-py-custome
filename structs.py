@@ -1,7 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from requests import Response
-from typing import Optional
+from typing import Optional, Dict
 
 
 class ClaimStatus(Enum):
@@ -85,6 +85,7 @@ class Claim:
     status: ClaimStatus
     created_at: str
     updated_at: str
+    metadata: Dict = field(default_factory=dict)
 
     @classmethod
     def by_json(cls, data):
@@ -96,7 +97,8 @@ class Claim:
             currency=Currency.by_json(data["currency"]),
             status=ClaimStatus(data["status"]),
             created_at=data["created_at"],
-            updated_at=data["updated_at"]
+            updated_at=data["updated_at"],
+            metadata=data.get("metadata", {})
         )
 
     def approve(self, client):

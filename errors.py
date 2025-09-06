@@ -16,3 +16,7 @@ class BadRequest(HTTPException):
 
 class NotFound(HTTPException):
     pass
+
+
+class Conflict(HTTPException):
+    pass
